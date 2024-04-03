@@ -1,0 +1,2 @@
+import { ProdutoInterface } from "../../Entity/interfaces/ProdutoInterface";
+export interface ProdutoPersistenceInterface{create(produto: ProdutoInterface): void; getProduto(): ProdutoInterface; list(): Array<ProdutoInterface>;}

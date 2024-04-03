@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_db_hono
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: aB#0515P@1709fF1H*9096273254_@
+    ports:
+      - "5432:5432"

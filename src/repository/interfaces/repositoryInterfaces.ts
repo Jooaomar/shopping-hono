@@ -1,0 +1,1 @@
+export interface configs{conect():void, config(): void};
