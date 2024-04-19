@@ -1,4 +1,5 @@
-import { ProdutoInterface } from "../../domain/Entity/interfaces/ProdutoInterface";
+// import { ProdutoInterface } from "../../domain/Entity/interfaces/ProdutoInteface";
+import { Produto } from "../../domain/Entity/Produto";
 import { ProdutoViewInterface } from "../../presenter/interfaces/ProdutoViewInterface";
 
 export class ViewModelProduto implements ProdutoViewInterface{
@@ -8,14 +9,23 @@ export class ViewModelProduto implements ProdutoViewInterface{
     }
 
     setError(mensagem: string ,e: Error): object {
-        return {'error': `${mensagem}, ${e}`}
+        return {"error": `${mensagem}, ${e}`}
     }
 
-    listarProduto(produto: ProdutoInterface): object{
-        return {"sucess": {"Produto listado": produto}};
+    listarProduto(produto: Produto, mensagem: string): object{
+        return {"sucess": { [mensagem] : produto.nome }};
     }
 
-    produtos(produtos: Array<ProdutoInterface>): object {
-        return {"Produtos Listados": produtos}
+    excluir(mensagem: string, nome: string): object{
+        return {"excluir": {[mensagem]: nome}}
+    }
+
+    produtos(produtos: Array<Produto>, mensage: string) {
+        return {[mensage]: produtos.map((produto) => ({
+                                                id: produto.id,
+                                                nome: produto.nome,
+                                                preco: produto.preco,
+                                                image: produto.image
+                                            }))}
     }
 }

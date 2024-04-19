@@ -1,23 +1,32 @@
-import { ProdutoInterface } from "./interfaces/ProdutoInterface";
+import { ProdutoInterface } from "./interfaces/ProdutoInteface";
 
 export class Produto {
 
-    private produto: ProdutoInterface;
+    id: number
+    nome: string
+    preco: number
+    image: string
 
-    constructor(id: number, nome: string, preo: number, image: string){
-        this.produto = {
-            id: id,
-            nome : nome,
-            preco: preo,
-            image: image
-        }
+    constructor(id: number, nome: string, preco: number, image: string){
+        this.id = id;
+        this.nome = nome;
+        this.preco = preco;  
+        this.image = image;
     }
 
-    getNome(): string{
-        return this.produto.nome;
+    getId(){
+        return this.id
     }
 
-    getProduto(): ProdutoInterface{
-        return this.produto
+    getNome(){
+        return this.nome
+    }
+
+    getPreco(){
+        return this.preco
+    }
+
+    getImage(){
+        return this.image
     }
 }

@@ -1,45 +1,52 @@
-import { ProdutoInterface as Produto } from "../Entity/interfaces/ProdutoInterface";
-import { ProdutoPersistenceInterface as ProdutoPersistence } from "./Interfaces/ProdutoUseCaseInterface";
-import { ProdutoPresenterOutput } from "./Interfaces/ProdutoUseCaseInterface";
+import { ProdutoPresenterOutput } from './Interfaces/ProdutoPresenterOutput';
+import { ProdutoPersistenceInterface as ProdutoPersistence} from './Interfaces/ProdutoPersistenceInterface';
+import { Produto } from "../Entity/Produto";
+import { CriarProdutoInterface } from "./Interfaces/CriarProduto";
+import { ListarProduto } from './ListarProduto';
 
-export class CriarProduto{
-    private salvar: ProdutoPersistence
-    private presenter: ProdutoPresenterOutput
-    private lista: Array<Produto> = [];
+export class CriarProduto extends ListarProduto implements CriarProdutoInterface{
+    repository: ProdutoPersistence
+    presenter: ProdutoPresenterOutput
+    listaProduto!: Array<Produto>;
 
 
-    constructor(create: ProdutoPersistence, presenter: ProdutoPresenterOutput){
-        this.salvar = create;
+    constructor(repository: ProdutoPersistence, presenter: ProdutoPresenterOutput){
+        super();
+        this.repository = repository;
         this.presenter = presenter;
     }
 
-    setLista(produto: Produto): object{
+    adicionaLista(produto: Produto): object {
         try {
-            this.lista.push(produto)
-            return this.presenter.presentListaProdutos(produto);
+            this.setLista(produto)
+            return this.presenter.presentListaProdutos(produto, 'Produto listado');
         } catch (error) {
             throw this.presenter.presentInvalidListaProdutos(new Error('Not in push!'))
         }
     }
 
-    getLista(): object{
-        // return this.lista;
-        return this.presenter.presentObterLista(this.lista);
+    listagem(): object {
+        try {
+            this.listaProduto = this.getLista()
+            return this.presenter.presentObterLista(this.listaProduto, "Lista de produtos");
+        } catch (error) {
+            throw error
+        }
     }
 
-    salvarProdutos(){
-        if (this.lista) {
-            try {
-                this.lista.forEach(produto => {
-                    this.salvar.create(produto)
-                    return this.presenter.presentSalvarProdutoPresenter();
-                });
-            } catch (error) {
-                throw this.presenter.presentInvalidCreateError(new Error(`Erro ao salvar: ${error}`));
-            }   
-        } else {
+    async salvarProdutos(){
+
+        if (!this.listaProduto || this.listaProduto.length === 0) {
             throw new Error("Sem produto listado");
         }
 
+        try {
+            for (const produto of this.listaProduto) {
+                await this.repository.create(produto)
+            }
+            return this.presenter.presentSalvarProdutoPresenter();
+        } catch (error) {
+            throw this.presenter.presentInvalidCreateError(new Error(`Erro ao salvar: ${error}`));
+        }
     }
 }

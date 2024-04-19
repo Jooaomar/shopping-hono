@@ -4,30 +4,44 @@ import { Produto } from "../Entity/Produto";
 import { describe, expect, test } from '@jest/globals';
 import { ProdutoModel } from "../../repository/ProdutoModel";
 
-describe('Use Case Criar Produto', () =>{
+
+describe('Use Case Criar Produto', () => {
     const persistir = new ProdutoModel();
     const presenter = new CriarProdutoPresenter();
-    const produto = new Produto(1,'Sapato1',155.20,'http://home.armazem/12542154rs');
-    const produto2 = new Produto(2, 'Sapato2', 255.25, 'http://home.armazem/saxhgs21565')
     const produtoEmlista = new CriarProduto(persistir, presenter);
-    test('Obter Lista de produtos', () => {
-        produtoEmlista.setLista(produto.getProduto());
-        produtoEmlista.setLista(produto2.getProduto());
-        expect(produtoEmlista.getLista()).toEqual({
-            "Produtos Listados":
-            [{id:1, nome:'Sapato1', preco:155.20, image: 'http://home.armazem/12542154rs'},
-            {id:2, nome:'Sapato2', preco:255.25, image: 'http://home.armazem/saxhgs21565'}]
-        });
-    });
+
     test('Inserir um produto na lista', () => {
-        expect(produtoEmlista.setLista(produto.getProduto())).toEqual({
-            "sucess": {"Produto listado": produto.getProduto()}
+        const produto = new Produto(1,'Sapato1',155.20,'http://home.armazem/12542154rs');
+        expect(produtoEmlista.adicionaLista(produto)).toEqual({
+            "sucess": {"Produto listado": produto.nome}
         })
     })
-    test('Salvar produto no banco de dados', () => {
-        produtoEmlista.setLista(produto.getProduto());
-        expect(produtoEmlista.salvarProdutos()).toEqual({
-            "Ok": "Produto criado",
-        })
+    test('Obter Lista de produtos', () => {
+        // const produto2 = new Produto(2, 'Sapato2', 255.25, 'http://home.armazem/saxhgs21565')
+        // produtoEmlista.setLista(produto2);
+        expect(produtoEmlista.listagem()).toEqual({
+            "Lista de produtos": [
+                {
+                  id: 1,
+                  nome: "Sapato1",
+                  preco: 155.2,
+                  image: "http://home.armazem/12542154rs",
+                }
+            ],
+        });
+    });
+    test('Salvar produto no banco de dados', async () => {
+        const produto3 = new Produto(3, 'Sapato3', 30000, 'wwww.com.br')
+        produtoEmlista.setLista(produto3);
+        const result = await produtoEmlista.salvarProdutos()
+        try {
+            expect(() => result).not.toThrow();
+            expect(result).toEqual({
+                "Ok":"Produto criado"
+            })
+        } catch (error) {
+            throw error;
+        }
+        
     })
 })

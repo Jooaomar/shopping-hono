@@ -1,15 +1,19 @@
-import { ProdutoPresenterOutput } from "../domain/UseCases/Interfaces/ProdutoUseCaseInterface";
-import { ProdutoViewInterface } from "./interfaces/ProdutoViewInterface";
+import { ProdutoPresenterOutput } from './../domain/UseCases/Interfaces/ProdutoPresenterOutput';
 import { ViewModelProduto } from "../views/Produto/ViewModelProduto";
-import { ProdutoInterface } from "../domain/Entity/interfaces/ProdutoInterface";
+import { Produto } from "../domain/Entity/Produto";
+import { ProdutoViewInterface } from "./interfaces/ProdutoViewInterface";
 
 export class CriarProdutoPresenter implements ProdutoPresenterOutput{
     // 
-    viewModel: ProdutoViewInterface = new ViewModelProduto()
+    viewModel = new ViewModelProduto()
 
     presentSalvarProdutoPresenter(): object {
         // Validar se produto existe
         return this.viewModel.setProdutoCriado();
+    }
+
+    presentExcluirProdutoPresenter(mensagem: string, nomeItem: string): object {
+        return this.viewModel.excluir(mensagem, nomeItem);
     }
 
     presentInvalidCreateError(e: Error): object {
@@ -17,12 +21,12 @@ export class CriarProdutoPresenter implements ProdutoPresenterOutput{
         return this.viewModel.setError("Erro ao criar produto",e);
     }
 
-    presentListaProdutos(produto: ProdutoInterface): object {
-        return this.viewModel.listarProduto(produto);
+    presentListaProdutos(produto: Produto, mensagem: string): object {
+        return this.viewModel.listarProduto(produto, mensagem);
     }
 
-    presentObterLista(produtos: Array<ProdutoInterface>): object {
-        return this.viewModel.produtos(produtos)
+    presentObterLista(produtos: Array<Produto>, mensage: string): object {
+        return this.viewModel.produtos(produtos, mensage)
     }
 
     presentInvalidListaProdutos(e: Error): object {

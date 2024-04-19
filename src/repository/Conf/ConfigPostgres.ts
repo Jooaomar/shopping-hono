@@ -1,10 +1,11 @@
 import { Client } from 'pg'
 import { configs } from '../interfaces/repositoryInterfaces';
 import * as dotenv from 'dotenv';
+import { Produto } from '../../domain/Entity/Produto';
 dotenv.config();
 
 
-export class ConfigPostgres implements configs{
+export class ConfigPostgres<T> implements configs<T>{
 
     private client!: Client
 
@@ -13,27 +14,17 @@ export class ConfigPostgres implements configs{
     database?: string;
     user?: string;
     password?: string | (() => string | Promise<string>);
-    tabela?: string;
-
-    // POSTGRES_HOST='172.21.0.2'
-    // POSTGRES_PORT='5432'
-    // POSTGRES_DATABASE='myshop'
-    // POSTGRES_USER='admin'
-    // POSTGRES_PASSWORD='aB#0515P@1709fF1H*9096273254_@'
+    tabela: string;
+    mapping: (value: T) => T;
     
-    constructor(tabela: string){
+    constructor(tabela: string, mapping: (value: T) => T){
         this.tabela = tabela;
-        // this.host = process.env.POSTGRES_HOST;
-        // this.port = process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT) : undefined;
-        // this.database = process.env.POSTGRES_DATABASE;
-        // this.user = process.env.POSTGRES_USER;
-        // this.password = process.env.POSTGRES_PASSWORD;
-        this.host = '172.21.0.2'
-        this.port = 5432
-        this.database = 'myshop'
-        this.user = 'admin'
-        this.password = 'aB#0515P@1709fF1H*9096273254_@'
-
+        this.host = process.env.POSTGRES_HOST;
+        this.port = process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT) : undefined;
+        this.database = process.env.POSTGRES_DATABASE;
+        this.user = process.env.POSTGRES_USER;
+        this.password = process.env.POSTGRES_PASSWORD;
+        this.mapping = mapping
         this.conect();
     }
 
@@ -60,18 +51,33 @@ export class ConfigPostgres implements configs{
         }
     }
 
-    all(){
-        // 
+    // Recebe uma função de mapeamento que devolve os dados do banco de dados no formato da Entidade 
+    async getAll(): Promise<T[]>{
+        try {
+            await this.conect();
+            const res = await this.client.query(`SELECT * FROM ${this.tabela}`)
+            await this.client.end()
+            // return mapping(res.rows)
+            
+            const resConvert = res.rows.map(item => (
+                this.mapping(item)
+            ));
+
+            return resConvert
+
+        } catch (error) {
+            throw error
+        }
     }
 
-    async toSave(values: Array<any>){
-
+    async toSave([...values]){
         try {
+            await this.conect();
             await this.client.query({
                 text: `INSERT INTO ${this.tabela} VALUES($1, $2, $3, $4)`,
                 values: values
             })
-            return "Ok";
+            await this.client.end();
         } catch (error) {
             throw new Error(`Não salvo ${error}`)
         }
