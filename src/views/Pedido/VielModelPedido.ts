@@ -2,35 +2,25 @@
 import { Produto } from "../../domain/Entity/Produto";
 import { ProdutoViewInterface } from "../../presenter/interfaces/ProdutoViewInterface";
 import { Cliente } from "../../domain/Entity/Cliente";
+import { Pedido } from "../../domain/Entity/Pedido";
+import { PedidoViewInterface } from "../../presenter/interfaces/PedidoViewInterface";
 
-export class ViewModelProduto implements ProdutoViewInterface{
+export class ViewModelPedido implements PedidoViewInterface{
 
-    setProdutoCriado(): object{
-        return {"Ok": "Produto criado"}
+    setPedidoCriado(): object{
+        return {"Ok": "Pedido criado"}
     }
 
     setError(mensagem: string ,e: Error): object {
         return {"error": `${mensagem}, ${e}`}
     }
 
-    listarProduto(produto: Produto, mensagem: string): object{
-        return {"sucess": { [mensagem] : produto.nome }};
-    }
-
     excluir(mensagem: string, nome: string): object{
         return {"excluir": {[mensagem]: nome}}
     }
 
-    produtos(produtos: Array<Produto>, mensage: string) {
-        return {[mensage]: produtos.map((produto) => ({
-                                                id: produto.id,
-                                                nome: produto.nome,
-                                                preco: produto.preco,
-                                                image: produto.image
-                                            }))}
-    }
 
-    compra(produtos: Produto[], cliente: Cliente):object{
+    pedidos(produtos: Produto[], cliente: Cliente):object{
         return {"cliente": {
                     "nome": cliente.nome,
                     "cpf": cliente.cpf,

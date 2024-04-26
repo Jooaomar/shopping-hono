@@ -1,7 +1,7 @@
-import { Produto } from "../Entity/Produto";
-import { CarrinhoProdutoInterface } from "./Interfaces/CarrinhoProduto";
+import { Produto } from "../../Entity/Produto";
+import { CarrinhoProdutoInterface } from "../Interfaces/CarrinhoProduto";
 import { ListarProduto } from "./ListarProduto";
-import { ProdutoPresenterOutput } from "./Interfaces/ProdutoPresenterOutput";
+import { ProdutoPresenterOutput } from "../Interfaces/ProdutoPresenterOutput";
 
 export class CarrinhoProduto extends ListarProduto implements CarrinhoProdutoInterface{
 

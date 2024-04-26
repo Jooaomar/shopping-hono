@@ -1,13 +1,12 @@
 import { Client } from 'pg'
-import { configs } from '../interfaces/repositoryInterfaces';
 import * as dotenv from 'dotenv';
-import { Produto } from '../../domain/Entity/Produto';
+import { configs } from '../../interfaces/configInterface';
 dotenv.config();
 
 
 export class ConfigPostgres<T> implements configs<T>{
 
-    private client!: Client
+    protected client!: Client
 
     host?: string;
     port?: number;
@@ -51,48 +50,4 @@ export class ConfigPostgres<T> implements configs<T>{
         }
     }
 
-    // Recebe uma função de mapeamento que devolve os dados do banco de dados no formato da Entidade 
-    async getAll(): Promise<T[]>{
-        try {
-            await this.conect();
-            const res = await this.client.query(`SELECT * FROM ${this.tabela}`)
-            await this.client.end()
-            // return mapping(res.rows)
-            
-            const resConvert = res.rows.map(item => (
-                this.mapping(item)
-            ));
-
-            return resConvert
-
-        } catch (error) {
-            throw error
-        }
-    }
-
-    async toSave([...values]){
-        try {
-            await this.conect();
-            await this.client.query({
-                text: `INSERT INTO ${this.tabela} VALUES($1, $2, $3, $4)`,
-                values: values
-            })
-            await this.client.end();
-        } catch (error) {
-            throw new Error(`Não salvo ${error}`)
-        }
-    }
-
-    obtainOne(){
-        // 
-    }
-
-    toRemove(){
-        //
-    }
-
-    update(){
-        //
-    }
-    // IMPLEMENTAR AS COISAS COMUNS EM TODOS OS BANCOS
 }

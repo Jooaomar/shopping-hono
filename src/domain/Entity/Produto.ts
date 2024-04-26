@@ -1,6 +1,6 @@
 import { ProdutoInterface } from "./interfaces/ProdutoInteface";
 
-export class Produto {
+export class Produto implements ProdutoInterface {
 
     id: number
     nome: string

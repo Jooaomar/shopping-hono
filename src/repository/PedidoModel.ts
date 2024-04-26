@@ -1,29 +1,31 @@
+import { PedidoPersistenceInterface } from './../domain/UseCases/Interfaces/PedidoPersistenceInterface';
 import { ProdutoPersistenceInterface } from './../domain/UseCases/Interfaces/ProdutoPersistenceInterface';
 import { mapearProduto } from "./mapping/Produto";
+import { mapearPedido } from './mapping/Pedido';
 import { Produto } from "../domain/Entity/Produto";
 import { ConfigPostgres } from "./Conf/Postgres/ConfigPostgres";
 import { ProdutosPostgres } from './Conf/Postgres/ProdutosPostgres';
+import { Pedido } from '../domain/Entity/Pedido';
 
-export class ProdutoModel implements ProdutoPersistenceInterface {
+export class PedidoModel implements PedidoPersistenceInterface {
 
-    private produtoRepository = new ProdutosPostgres<Produto>('produto', mapearProduto);
+    private produtoRepository = new ProdutosPostgres<Pedido>('vendas', mapearPedido);
 
-    async create(produto: Produto){
+    async create(pedido: Pedido){
         const res = await this.produtoRepository.toSave([
-                produto.getId(),
-                produto.getNome(),
-                produto.getPreco(),
-                produto.getImage()
+                pedido.id_cliente,
+                pedido.id_produto,
+                pedido.quantidade
             ]);
         return res
     }
 
-    async getAll(): Promise<Produto[]> {
+    async getAll(): Promise<Pedido[]> {
         const res = await this.produtoRepository.getAll();
         return res
     }
 
-    async getOne(id: number): Promise<Produto> {
+    async getOne(id: number): Promise<Pedido> {
         const res = await this.produtoRepository.obtainOne(id);
         return res
     }

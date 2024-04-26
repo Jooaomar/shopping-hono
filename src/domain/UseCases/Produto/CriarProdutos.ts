@@ -1,7 +1,7 @@
-import { ProdutoPresenterOutput } from './Interfaces/ProdutoPresenterOutput';
-import { ProdutoPersistenceInterface as ProdutoPersistence} from './Interfaces/ProdutoPersistenceInterface';
-import { Produto } from "../Entity/Produto";
-import { CriarProdutoInterface } from "./Interfaces/CriarProduto";
+import { ProdutoPresenterOutput } from '../Interfaces/ProdutoPresenterOutput';
+import { ProdutoPersistenceInterface as ProdutoPersistence} from '../Interfaces/ProdutoPersistenceInterface';
+import { Produto } from "../../Entity/Produto";
+import { CriarProdutoInterface } from "../Interfaces/CriarProduto";
 import { ListarProduto } from './ListarProduto';
 
 export class CriarProduto extends ListarProduto implements CriarProdutoInterface{

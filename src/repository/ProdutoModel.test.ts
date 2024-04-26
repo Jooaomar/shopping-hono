@@ -13,4 +13,12 @@ describe('Testes de ProdutoModel', () => {
             throw error;
         }
     })
+    test('Buscar produto específico', async () => {
+        try {
+            const repository = new ProdutoModel()
+            expect((await repository.getOne(10)).nome).toBe("testeProdu")
+        } catch (error) {
+            throw error
+        }
+    })
 })

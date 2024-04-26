@@ -1,6 +1,6 @@
-import { ProdutoPresenterOutput } from './Interfaces/ProdutoPresenterOutput';
-import { ExibirProdutoInterface } from "./Interfaces/ExibirProdutos";
-import { ProdutoPersistenceInterface } from "./Interfaces/ProdutoPersistenceInterface";
+import { ProdutoPresenterOutput } from '../Interfaces/ProdutoPresenterOutput';
+import { ExibirProdutoInterface } from "../Interfaces/ExibirProdutos";
+import { ProdutoPersistenceInterface } from "../Interfaces/ProdutoPersistenceInterface";
 
 
 export class ExibirProdutos implements ExibirProdutoInterface{

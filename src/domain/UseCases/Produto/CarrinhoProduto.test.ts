@@ -1,8 +1,8 @@
-import { CriarProdutoPresenter } from "../../presenter/CriarProdutoPresenter";
+import { CriarProdutoPresenter } from "../../../presenter/ProdutoPresenter";
 import { CriarProduto } from "./CriarProdutos";
-import { Produto } from "../Entity/Produto";
+import { Produto } from "../../Entity/Produto";
 import { describe, expect, test } from '@jest/globals';
-import { ProdutoModel } from "../../repository/ProdutoModel";
+import { ProdutoModel } from "../../../repository/ProdutoModel";
 import { ExibirProdutos } from "./ExibirProdutos";
 import { CarrinhoProduto } from "./CarrinhoProduto";
 

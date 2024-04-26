@@ -1,5 +1,5 @@
-import { Produto } from "../Entity/Produto";
-import { ListarProdutoInterface } from "./Interfaces/ListarProduto";
+import { Produto } from "../../Entity/Produto";
+import { ListarProdutoInterface } from "../Interfaces/ListarProduto";
 
 export class ListarProduto implements ListarProdutoInterface {
     lista: Array<Produto> = [];

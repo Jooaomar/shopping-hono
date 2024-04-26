@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
-import { Produto } from '../Entity/Produto';
 import { ListarProduto } from './ListarProduto';
+import { Produto } from '../../Entity/Produto';
 
 describe('Testar Listagem de Produto', () => { 
     const produto = new Produto(1,'Sapato1',155.20,'http://home.armazem/12542154rs');

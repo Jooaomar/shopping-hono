@@ -1,10 +1,13 @@
 import { describe, expect, test } from '@jest/globals';
 import { ConfigPostgres } from './ConfigPostgres';
-import { Produto } from '../../domain/Entity/Produto';
-import { mapearProduto } from '../mapping/Produto';
+import { Produto } from '../../../domain/Entity/Produto';
+import { mapearProduto } from '../../mapping/Produto';
+import { ProdutosPostgres } from './ProdutosPostgres';
 
 describe('Teste de Configuaração do Postgres', () =>{
-    const instancia = new ConfigPostgres('produto', mapearProduto)
+    // const instancia = new ConfigPostgres('produto', mapearProduto)
+    const instancia = new ProdutosPostgres('produto', mapearProduto)
+
     const produto = new Produto(2,'produtoTest',600.0,'htt://bicicleta')
     
     test('Conectando com banco objeto Postgres', () => {
