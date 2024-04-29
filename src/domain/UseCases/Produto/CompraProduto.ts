@@ -21,36 +21,23 @@ export class CompraProduto implements ComprarProdutoInterface {
     }
 
     async compra(pedidos: Pedido[], cliente: Cliente): Promise<object> {
-        
-        const produtos =  await this.buscaProdutos(pedidos)
-                .then((produtos) => this.efetuaPedido(produtos, cliente, 3))
-                .then((listarProduto) => this.presenter.presentObterLista(listarProduto, cliente))
-                .catch((erro) => {
-                    throw this.presenter.presentInvalidCompraError(erro, "erro ao buscar produto");
-                });
+
+        const produtos = await this.efetuaPedido(pedidos)
+                            .then((listarProduto) => this.presenter.presentObterLista(listarProduto, cliente))
+                            .catch((erro) => {
+                                throw this.presenter.presentInvalidCompraError(erro, "erro ao buscar produto");
+                            });
                 
         return produtos
     }
 
-    async efetuaPedido(produtos: Produto[], cliente: Cliente, quantidade: number): Promise<Produto[]> {
-        try {
-            for (const produto of produtos) {
-                const pedido = new Pedido(cliente.id, produto.id, quantidade)
-                await this.repositoryPedido.create(pedido)
-            }
-            return produtos;
-        } catch (error) {
-            throw error
-        }
-    }
 
-    async buscaProdutos(pedidos: Pedido[]): Promise<Produto[]> {
+    async efetuaPedido(pedidos: Pedido[]): Promise<Produto[]> {
         const produtos = []
         try {
             for (const pedido of pedidos) {
                 const produto = await this.repositoryProduto.getOne(pedido.id_produto);
-                // VALIDAR SE POSSUI ESTOQUE
-                // 
+                await this.repositoryPedido.create(pedido)
                 produtos.push(produto)
             }
             return produtos;
@@ -58,5 +45,6 @@ export class CompraProduto implements ComprarProdutoInterface {
             throw error
         }
     }
+
 
 }

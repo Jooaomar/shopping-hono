@@ -38,4 +38,9 @@ export class CriarProdutoPresenter implements ProdutoPresenterOutput{
         return this.viewModel.setError("Erro ao listar produtos", e)
     }
 
+    presentCompraProduto(produtos: Produto[], cliente: Cliente): object {
+        // Fazer ainda
+        return {}
+    }
+
 }

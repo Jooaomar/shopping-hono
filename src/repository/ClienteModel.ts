@@ -1,11 +1,12 @@
-import { ProdutosPostgres } from "./Conf/Postgres/ProdutosPostgres";
+// import { ProdutosPostgres } from "./Conf/Postgres/ProdutosPostgres";
 import { Cliente } from "../domain/Entity/Cliente";
 import { mapearCliente } from "./mapping/Cliente";
 import { ClientePersistenceInterface } from "../domain/UseCases/Interfaces/ClientePersistenceInterface";
+import { ClientesPostgres } from "./Conf/Postgres/ClientesPostgres";
 
 
 export class ClienteModel implements ClientePersistenceInterface {
-    private produtoRepository = new ProdutosPostgres<Cliente>('cliente', mapearCliente);
+    private produtoRepository = new ClientesPostgres<Cliente>('cliente', mapearCliente);
 
     async create(cliente: Cliente) {
         const res = await this.produtoRepository.toSave([

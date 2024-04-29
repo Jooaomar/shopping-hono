@@ -11,6 +11,6 @@ export interface ComprarProdutoInterface {
     repositoryPedido: PedidoPersistenceInterface
     repositoryProduto: ProdutoPersistenceInterface
     compra(venda: Pedido[], cliente: Cliente): Promise<object>
-    buscaProdutos(pedidos: Pedido[]): Promise<Produto[]>
-    efetuaPedido(produtos: Produto[], cliente: Cliente, quantidade: number): Promise<Produto[]>
+    // buscaProdutos(pedidos: Pedido[]): Promise<Produto[]>
+    efetuaPedido(produtos: Pedido[]): Promise<Produto[]>
 }

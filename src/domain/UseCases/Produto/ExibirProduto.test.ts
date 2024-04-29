@@ -26,6 +26,11 @@ describe('Teste UseCase ExbirProduto', () => {
                 preco: 600,
                 image: "htt://bicicleta",
             }, {
+                id: 30,
+                image: "http://home.armazem/12542154rs",
+                nome: "Sapato10",
+                preco: 3678.2,
+            }, {
                 id: 1,
                 nome: "Sapato1",
                 preco: 155.2,
