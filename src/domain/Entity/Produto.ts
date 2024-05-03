@@ -6,12 +6,16 @@ export class Produto implements ProdutoInterface {
     nome: string
     preco: number
     image: string
+    quantidade: number;
+    habilitado: boolean;
 
-    constructor(id: number, nome: string, preco: number, image: string){
+    constructor(id: number, nome: string, preco: number, image: string, quantidade: number, habilitado: boolean){
         this.id = id;
         this.nome = nome;
         this.preco = preco;  
         this.image = image;
+        this.quantidade = quantidade;
+        this.habilitado = habilitado;
     }
 
     getId(){
@@ -28,5 +32,9 @@ export class Produto implements ProdutoInterface {
 
     getImage(){
         return this.image
+    }
+
+    setHabilitado(){
+        this.habilitado = !this.habilitado; 
     }
 }

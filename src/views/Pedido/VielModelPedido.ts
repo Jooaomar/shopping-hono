@@ -38,4 +38,15 @@ export class ViewModelPedido implements PedidoViewInterface{
                     image: produto.image
                 })) }
     }
+
+    editar(pedido: Pedido, produto: Produto): object {
+        return {
+            "Pedido Atualizado":  {
+                "nome": produto.nome,
+                "preco": produto.preco,
+                "estoque": produto.quantidade,
+                "quantidade_pedida": pedido.quantidade
+            }
+        }
+    }
 }

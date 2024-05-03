@@ -9,12 +9,7 @@ export class ProdutoModel implements ProdutoPersistenceInterface {
     private produtoRepository = new ProdutosPostgres<Produto>('produto', mapearProduto);
 
     async create(produto: Produto){
-        const res = await this.produtoRepository.toSave([
-                produto.getId(),
-                produto.getNome(),
-                produto.getPreco(),
-                produto.getImage()
-            ]);
+        const res = await this.produtoRepository.toSave(produto);
         return res
     }
 
@@ -26,6 +21,16 @@ export class ProdutoModel implements ProdutoPersistenceInterface {
     async getOne(id: number): Promise<Produto> {
         const res = await this.produtoRepository.obtainOne(id);
         return res
+    }
+
+    async update(produto: Produto){
+        const res = await this.produtoRepository.update(produto)
+        return res;
+    }
+
+    async delete(produto: Produto): Promise<Produto> {
+        const res =  await this.produtoRepository.delete(produto);
+        return res;
     }
 
 }

@@ -1,6 +1,10 @@
 import { ProdutoPersistenceInterface } from "./ProdutoPersistenceInterface"
 import { ProdutoPresenterOutput } from "./ProdutoPresenterOutput"
+import { Produto } from "../../Entity/Produto"
 
 export interface ExibirProdutoInterface {
-    getAllProdutos(repository: ProdutoPersistenceInterface, presenter: ProdutoPresenterOutput): Promise<object>
+    repository: ProdutoPersistenceInterface
+    presenter: ProdutoPresenterOutput
+    getAllProdutos(): Promise<object>
+    getProduto(id: number): Promise<object>
 }

@@ -1,7 +1,8 @@
 import { ConfigPostgres } from "./ConfigPostgres";
-import { RepositoryInterface } from "../../interfaces/repositoryInterfaces";
+import { RepositoryProdutoInterface } from "../../interfaces/repositoryProdutoInterface";
+import { Produto } from "../../../domain/Entity/Produto";
 
-export class ProdutosPostgres<T> extends ConfigPostgres<T> implements RepositoryInterface{
+export class ProdutosPostgres<T> extends ConfigPostgres<T> implements RepositoryProdutoInterface {
 
     constructor(tabela: string, mapping: (value: T) => T){
         super(tabela, mapping)
@@ -33,15 +34,15 @@ export class ProdutosPostgres<T> extends ConfigPostgres<T> implements Repository
         }
     }
 
-    async toSave([...values]){
+    async toSave(produto: Produto){
 
-        const valuePlaceholders = this.qtdParametrosBuscaDB(values)
+        // const valuePlaceholders = this.qtdParametrosBuscaDB(values)
 
         try {
             await this.conect();
             await this.client.query({
-                text: `INSERT INTO ${this.tabela} VALUES(${valuePlaceholders})`,
-                values: values
+                text: `INSERT INTO produto(id, nome, preco, image, quantidade, habilitado) VALUES($1, $2, $3, $4, $5, $6)`,
+                values: [`${produto.id}`, `${produto.nome}`, `${produto.preco}`, `${produto.image}`, `${produto.quantidade}`, `${produto.habilitado}`]
             })
             await this.client.end();
         } catch (error) {
@@ -76,8 +77,50 @@ export class ProdutosPostgres<T> extends ConfigPostgres<T> implements Repository
         //
     }
 
-    update(){
-        //
+    async update(produto: Produto){
+        try {
+            
+            await this.conect();
+            const res = await this.client.query({
+                text: `UPDATE ${this.tabela} SET nome = $1, preco = $2, image = $3, quantidade = $4, habilitado = $5  WHERE id = $6`,
+                values: [`${produto.nome}`, `${produto.preco}`, `${produto.image}`, `${produto.quantidade}`, `${produto.habilitado}`,`${produto.id}`]
+            })
+            const resConvert = res.rows.map(item => (
+                this.mapping(item)
+            ));
+            await this.client.end();
+
+            return resConvert[0]
+            
+        } catch (error) {
+            throw error
+        }
+    }
+
+    /**
+     * Deleta produto e pedidos relacionados ao produto
+     */
+    async delete(produto: Produto){
+        try {
+
+            await this.conect();
+
+            await this.client.query({
+                text: `DELETE FROM pedidos WHERE id_produto = $1`,
+                values: [`${produto.id}`]
+            })
+
+            const res = await this.client.query({
+                text: `DELETE FROM  ${this.tabela} WHERE id = $1`,
+                values: [`${produto.id}`]
+            })
+            await this.client.end();
+            
+            return res.rows[0];
+            
+        } catch (error) {
+            throw error;
+        }
     }
     // IMPLEMENTAR AS COISAS COMUNS EM TODOS OS BANCOS
 }

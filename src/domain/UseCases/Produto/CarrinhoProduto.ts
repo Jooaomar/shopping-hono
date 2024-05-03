@@ -3,11 +3,19 @@ import { CarrinhoProdutoInterface } from "../Interfaces/CarrinhoProduto";
 import { ListarProduto } from "./ListarProduto";
 import { ProdutoPresenterOutput } from "../Interfaces/ProdutoPresenterOutput";
 
+
+/**
+ * Classe representando caso de uso adicionar produto no carrinho de compras.
+ */
 export class CarrinhoProduto extends ListarProduto implements CarrinhoProdutoInterface{
 
     carrinhoProduto!: Produto[];
     presenter: ProdutoPresenterOutput;
 
+    /**
+     * Cria um novo carrinho.
+     * @param {ProdutoPresenterOutput} presenter - Presenter para saída de mesagem ao usuário.
+     */
     constructor(presenter: ProdutoPresenterOutput){
         super();
         this.presenter = presenter

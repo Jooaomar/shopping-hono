@@ -11,7 +11,7 @@ describe('Use Case Criar Produto', () => {
     const produtoEmlista = new CriarProduto(persistir, presenter);
 
     test('Inserir um produto na lista', () => {
-        const produto = new Produto(1,'Sapato1',155.20,'http://home.armazem/12542154rs');
+        const produto = new Produto(1,'Sapato1',155.20,'http://home.armazem/12542154rs', 20, true);
         expect(produtoEmlista.adicionaLista(produto)).toEqual({
             "sucess": {"Produto listado": produto.nome}
         })
@@ -31,17 +31,12 @@ describe('Use Case Criar Produto', () => {
         });
     });
     test('Salvar produto no banco de dados', async () => {
-        const produto3 = new Produto(3, 'Sapato3', 30000, 'wwww.com.br')
+        const produto3 = new Produto(4, 'Sapato3', 30000, 'wwww.com.br', 20, true)
         produtoEmlista.setLista(produto3);
         const result = await produtoEmlista.salvarProdutos()
-        try {
-            expect(() => result).not.toThrow();
-            expect(result).toEqual({
-                "Ok":"Produto criado"
-            })
-        } catch (error) {
-            throw error;
-        }
-        
+        expect(() => result).not.toThrow();
+        expect(result).toEqual({
+            "Ok":"Produto criado"
+        })
     })
 })

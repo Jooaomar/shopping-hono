@@ -9,17 +9,21 @@ export class ViewModelProduto implements ProdutoViewInterface{
         return {"Ok": "Produto criado"}
     }
 
+
     setError(mensagem: string ,e: Error): object {
         return {"error": `${mensagem}, ${e}`}
     }
+
 
     listarProduto(produto: Produto, mensagem: string): object{
         return {"sucess": { [mensagem] : produto.nome }};
     }
 
+
     excluir(mensagem: string, nome: string): object{
         return {"excluir": {[mensagem]: nome}}
     }
+
 
     produtos(produtos: Array<Produto>, mensage: string) {
         return {[mensage]: produtos.map((produto) => ({
@@ -29,6 +33,7 @@ export class ViewModelProduto implements ProdutoViewInterface{
                                                 image: produto.image
                                             }))}
     }
+
 
     compra(produtos: Produto[], cliente: Cliente):object{
         return {"cliente": {
@@ -48,4 +53,23 @@ export class ViewModelProduto implements ProdutoViewInterface{
                     image: produto.image
                 })) }
     }
+
+
+    editar(produto: Produto): object {
+        return {
+            "Produto Editado": {
+                "nome":produto.nome,
+                "image": produto.image,
+                "preco": produto.preco,
+                "quantidade": produto.quantidade,
+                "habilidado": produto.habilitado,
+            }
+        }
+    }
+
+
+    alerta(mensage: string): object{
+        return {mensage}
+    }
+
 }

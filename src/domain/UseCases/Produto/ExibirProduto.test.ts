@@ -11,36 +11,31 @@ describe('Teste UseCase ExbirProduto', () => {
     test('Exibir Produtos do BD', async () => {
         const persistir = new ProdutoModel();
         const presenter = new CriarProdutoPresenter();
-        const exibir = new ExibirProdutos()
-        const res = await exibir.getAllProdutos(persistir, presenter)
+        const exibir = new ExibirProdutos(persistir, presenter)
+        const res = await exibir.getAllProdutos()
         expect(res).toEqual({
             "Lista de Produtos": [
-            {
-                id: 10,
-                nome: "testeProdu",
-                preco: 444,
-                image: "jmjmjmjm",
-            }, {
-                id: 2,
-                nome: "produtoTest",
-                preco: 600,
-                image: "htt://bicicleta",
-            }, {
-                id: 30,
-                image: "http://home.armazem/12542154rs",
-                nome: "Sapato10",
-                preco: 3678.2,
-            }, {
-                id: 1,
-                nome: "Sapato1",
-                preco: 155.2,
-                image: "http://home.armazem/12542154rs",
-            }, {
-                id: 3,
-                nome: "Sapato3",
-                preco: 30000,
-                image: "wwww.com.br",
-            }
+                {
+                    id: 3,
+                    nome: "testeProdu",
+                    preco: 444,
+                    image: "jmjmjmjm",
+                }, {
+                    id: 2,
+                    nome: "produtoTest",
+                    preco: 600,
+                    image: "htt://bicicleta",
+                }, {
+                    id: 1,
+                    nome: "Sapato1",
+                    preco: 155.2,
+                    image: "http://home.armazem/12542154rs",
+                }, {
+                    id: 4,
+                    nome: "Sapato3",
+                    preco: 30500,
+                    image: ".com.com",
+                }
             ],
         })
     })

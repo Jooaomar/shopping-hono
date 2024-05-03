@@ -10,14 +10,10 @@ import { Pedido } from '../domain/Entity/Pedido';
 
 export class PedidoModel implements PedidoPersistenceInterface {
 
-    private pedidoRepository = new PedidosPostgres<Pedido>('peididos', mapearPedido);
+    private pedidoRepository = new PedidosPostgres<Pedido>('pedidos', mapearPedido);
 
     async create(pedido: Pedido){
-        const res = await this.pedidoRepository.toSave([
-                pedido.id_cliente,
-                pedido.id_produto,
-                pedido.quantidade
-            ]);
+        const res = await this.pedidoRepository.toSave(pedido);
         return res
     }
 
@@ -29,6 +25,11 @@ export class PedidoModel implements PedidoPersistenceInterface {
     async getOne(id: number): Promise<Pedido> {
         const res = await this.pedidoRepository.obtainOne(id);
         return res
+    }
+
+    async update(pedido: Pedido){
+        const res = await this.pedidoRepository.update(pedido)
+        return res;
     }
 
 }

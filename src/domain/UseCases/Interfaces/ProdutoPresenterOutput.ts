@@ -10,4 +10,7 @@ export interface ProdutoPresenterOutput{
     presentInvalidListaProdutos(e: Error): object;
     presentObterLista(produtos: Array<Produto>, mensage: string): object;
     presentCompraProduto(produtos: Array<Produto>, cliente: Cliente): object
+    presentEditarProduto(produto: Produto): object
+    presentExcluirProduto(produto: Produto): object
+    presentAlerta(mensage: string): object
 }

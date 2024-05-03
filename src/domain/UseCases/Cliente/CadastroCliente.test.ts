@@ -11,7 +11,7 @@ describe('Use case Cadastrar Clientes', () => {
     const cadastroCliente = new CadastroCliente(persistir, presenter)
 
     test('Fazer cadastro de cliente', async () => {
-        const cliente = new Cliente(2, 'Marcelo', 1234214141, true, {rua: 'jean', bairro: 'mafrense', cidade: 'tersina', estado: 'piauí', numero: 15})
+        const cliente = new Cliente(1, 'Marcelo', 1234214141, true, {rua: 'jean', bairro: 'mafrense', cidade: 'tersina', estado: 'piauí', numero: 15})
         const res = await cadastroCliente.cadastrar(cliente);
         try {
             expect(() => res).not.toThrow();

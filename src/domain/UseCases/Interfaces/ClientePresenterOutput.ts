@@ -5,4 +5,6 @@ export interface ClientePresenterOutput{
     presentInvalidCadastroError(e: Error): object;
     presentExcluirClientePresenter(mensagem: string, nomeItem: string): object
     presentObterListaClientes(clientes: Array<Cliente>, mensage: string): object;
+    presentEditarCliente(cliente: Cliente): object
+    presentAlerta(mensage: string): object
 }

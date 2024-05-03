@@ -41,4 +41,12 @@ export class PedidoPresenter implements PedidoPresenterOutput{
     presentEfetuarCompra(produtos: Produto[], cliente: Cliente): object {
         return this.viewModel.pedidos(produtos, cliente)
     }
+
+    presetEdtarPedido(pedido: Pedido, produto: Produto): object {
+        return this.viewModel.editar(pedido, produto);
+    }
+
+    presentInvalidError(mensage: string): object {
+        return this.viewModel.setError(mensage, new Error("Sem estoque"))
+    }
 }

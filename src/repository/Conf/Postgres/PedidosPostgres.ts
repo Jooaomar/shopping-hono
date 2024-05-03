@@ -1,7 +1,8 @@
 import { ConfigPostgres } from "./ConfigPostgres";
-import { RepositoryInterface } from "../../interfaces/repositoryInterfaces";
+import { RepositoryPedidosInterfaces } from "../../interfaces/repositoryPedidosInterfaces";
+import { Pedido } from "../../../domain/Entity/Pedido";
 
-export class PedidosPostgres<T> extends ConfigPostgres<T> implements RepositoryInterface{
+export class PedidosPostgres<T> extends ConfigPostgres<T> implements RepositoryPedidosInterfaces{
 
     constructor(tabela: string, mapping: (value: T) => T){
         super(tabela, mapping)
@@ -33,15 +34,15 @@ export class PedidosPostgres<T> extends ConfigPostgres<T> implements RepositoryI
         }
     }
 
-    async toSave([...values]){
+    async toSave(pedido: Pedido){
 
-        const valuePlaceholders = this.qtdParametrosBuscaDB(values)
+        // const valuePlaceholders = this.qtdParametrosBuscaDB(values)
 
         try {
             await this.conect();
             await this.client.query({
-                text: `INSERT INTO pedidos(id_cliente, id_produto, quantidade) VALUES($1, $2, $3)`,
-                values: values
+                text: `INSERT INTO pedidos(id, id_cliente, id_produto, quantidade, codigo_pedido) VALUES($1, $2, $3, $4, $5)`,
+                values: [`${pedido.id}`,`${pedido.id_cliente}`, `${pedido.id_produto}`, `${pedido.quantidade}`, `${pedido.codigo_pedido}`]
             })
             await this.client.end();
         } catch (error) {
@@ -76,8 +77,19 @@ export class PedidosPostgres<T> extends ConfigPostgres<T> implements RepositoryI
         //
     }
 
-    update(){
-        //
+    async update(pedido: Pedido){
+        try {
+            
+            await this.conect();
+            const res = await this.client.query({
+                text: 'UPDATE pedidos SET quantidade = $1 WHERE id = $2',
+                values: [`${pedido.quantidade}`,`${pedido.id}`]
+            })
+            console.log("Atualizar pedido, ",res.rows)
+            await this.client.end();
+        } catch (error) {
+            throw error
+        }
     }
     // IMPLEMENTAR AS COISAS COMUNS EM TODOS OS BANCOS
 }

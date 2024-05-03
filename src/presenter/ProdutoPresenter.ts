@@ -43,4 +43,16 @@ export class CriarProdutoPresenter implements ProdutoPresenterOutput{
         return {}
     }
 
+    presentEditarProduto(produto: Produto): object {
+        return this.viewModel.editar(produto);
+    }
+
+    presentExcluirProduto(produto: Produto): object {
+        return this.viewModel.excluir('produto excluído', produto.nome);
+    }
+
+    presentAlerta(mensage: string): object {
+        return this.viewModel.alerta(mensage);
+    }
+
 }

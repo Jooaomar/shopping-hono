@@ -12,13 +12,13 @@ import { CadastrarClientePresenter } from '../../../presenter/CadastrarClientePr
 import { CadastroCliente } from '../../../domain/UseCases/Cliente/CadastroCliente';
 
 
-describe('Armazenar pedidos', async () =>{
+describe('Armazenar pedidos', async () => {
     // const instancia = new ConfigPostgres('produto', mapearProduto)
     const instancia = new PedidosPostgres('pedidos', mapearPedido)
 
     const persistir = new ProdutoModel();
     const presenter = new CriarProdutoPresenter();
-    const produto = new Produto(30,'Sapato10',3678.20,'http://home.armazem/12542154rs');
+    const produto = new Produto(30,'Sapato10',3678.20,'http://home.armazem/12542154rs', 20, true);
     const produtoEmlista = new CriarProduto(persistir, presenter);
     produtoEmlista.adicionaLista(produto)
     produtoEmlista.listagem();
@@ -32,11 +32,9 @@ describe('Armazenar pedidos', async () =>{
 
 
 
-    const pedido1 = new Pedido(cliente.id, produto.id, 5)
+    const pedido1 = new Pedido(15, 8, cliente.id, produto.id, 5)
 
     test('Salvar pedidos no banco de dados', () => {
-        expect(async () => await instancia.toSave([pedido1.id_cliente, 
-                                        pedido1.id_produto, 
-                                        pedido1.quantidade])).not.toThrow();
+        expect(async () => await instancia.toSave(pedido1)).not.toThrow();
     })
 })

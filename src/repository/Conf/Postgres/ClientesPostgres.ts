@@ -1,11 +1,13 @@
 import { ConfigPostgres } from "./ConfigPostgres";
-import { RepositoryInterface } from "../../interfaces/repositoryInterfaces";
+import { RepositoryClienteInterface } from "../../interfaces/repositoryClienteInterface";
+import { Cliente } from "../../../domain/Entity/Cliente";
 
-export class ClientesPostgres<T> extends ConfigPostgres<T> implements RepositoryInterface{
+export class ClientesPostgres<T> extends ConfigPostgres<T> implements RepositoryClienteInterface{
 
     constructor(tabela: string, mapping: (value: T) => T){
         super(tabela, mapping)
     }
+
 
     /**
      * Obtem a formatação da quantidade de parãmetros buscados 
@@ -13,6 +15,7 @@ export class ClientesPostgres<T> extends ConfigPostgres<T> implements Repository
     qtdParametrosBuscaDB([...values]){
         return values.map((_, index) => `$${index + 1}`).join(', ');
     }
+
 
     // Recebe uma função de mapeamento que devolve os dados do banco de dados no formato da Entidade 
     async getAll(): Promise<T[]>{
@@ -33,15 +36,23 @@ export class ClientesPostgres<T> extends ConfigPostgres<T> implements Repository
         }
     }
 
-    async toSave([...values]){
+    async toSave(cliente: Cliente){
 
-        const valuePlaceholders = this.qtdParametrosBuscaDB(values)
+        // const valuePlaceholders = this.qtdParametrosBuscaDB(values)
 
         try {
             await this.conect();
             await this.client.query({
-                text: `INSERT INTO ${this.tabela} VALUES(${valuePlaceholders})`,
-                values: values
+                text: `INSERT INTO ${this.tabela} VALUES($1, $2, $3, $4, $5, $6, $7)`,
+                values: [
+                    `${cliente.id}`,
+                    `${cliente.nome}`, 
+                    `${cliente.endereco.bairro}`, 
+                    `${cliente.endereco.cidade}`,
+                    `${cliente.endereco.estado}`,
+                    `${cliente.endereco.numero}`,
+                    `${cliente.cpf}`,
+                ]
             })
             await this.client.end();
         } catch (error) {
@@ -76,8 +87,59 @@ export class ClientesPostgres<T> extends ConfigPostgres<T> implements Repository
         //
     }
 
-    update(){
-        //
+    async update(cliente: Cliente){
+        try {
+            
+            await this.conect();
+            const res = await this.client.query({
+                text: `UPDATE ${this.tabela} SET nome = $1, rua = $2, bairro = $3, cidade = $4, estado = $5, numero_casa = $6, cpf = $7 WHERE id = $8`,
+                values: [
+                        `${cliente.nome}`, 
+                        `${cliente.endereco.rua}`, 
+                        `${cliente.endereco.bairro}`, 
+                        `${cliente.endereco.cidade}`,
+                        `${cliente.endereco.estado}`, 
+                        `${cliente.endereco.numero}`, 
+                        `${cliente.cpf}`,
+                        `${cliente.id}`
+                    ]
+            })
+            const resConvert = res.rows.map(item => (
+                this.mapping(item)
+            ));
+            await this.client.end();
+
+            return resConvert[0]
+            
+        } catch (error) {
+            throw error
+        }
+    }
+
+    /**
+     * Deleta todos os pedidos de um cliente e o cadastro do cliente.
+     */
+    async delete(cliente: Cliente){
+        try {
+
+            await this.conect();
+
+            await this.client.query({
+                text: `DELETE FROM pedidos WHERE id_cliente = $1`,
+                values: [`${cliente.id}`]
+            })
+
+            const res = await this.client.query({
+                text: `DELETE FROM  ${this.tabela} WHERE id = $1`,
+                values: [`${cliente.id}`]
+            })
+            await this.client.end();
+            
+            return res.rows[0];
+            
+        } catch (error) {
+            throw error;
+        }
     }
     // IMPLEMENTAR AS COISAS COMUNS EM TODOS OS BANCOS
 }

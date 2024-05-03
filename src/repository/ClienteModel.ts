@@ -6,23 +6,24 @@ import { ClientesPostgres } from "./Conf/Postgres/ClientesPostgres";
 
 
 export class ClienteModel implements ClientePersistenceInterface {
-    private produtoRepository = new ClientesPostgres<Cliente>('cliente', mapearCliente);
+    private ClienteRepository = new ClientesPostgres<Cliente>('cliente', mapearCliente);
 
     async create(cliente: Cliente) {
-        const res = await this.produtoRepository.toSave([
-            cliente.id,
-            cliente.nome,
-            cliente.endereco.rua,
-            cliente.endereco.bairro,
-            cliente.endereco.cidade,
-            cliente.endereco.estado,
-            cliente.endereco.numero,
-            cliente.cpf,
-        ])
+        const res = await this.ClienteRepository.toSave(cliente)
     }
 
     async getAll(): Promise<Cliente[]> {
-        const res = await this.produtoRepository.getAll()
+        const res = await this.ClienteRepository.getAll()
         return res
+    }
+
+    async update(cliente: Cliente): Promise<Cliente> {
+        const res = await this.ClienteRepository.update(cliente)
+        return res
+    }
+
+    async delete(cliente: Cliente): Promise<Cliente> {
+        const res =  await this.ClienteRepository.delete(cliente);
+        return res;
     }
 }

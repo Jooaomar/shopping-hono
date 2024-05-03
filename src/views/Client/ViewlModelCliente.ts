@@ -30,4 +30,24 @@ export class ViewModelCliente implements ClienteViewInterface{
             numero_casa: cliente.endereco.numero
         }))}
     }
+
+    editar(cliente: Cliente): object {
+        return {
+            "Cliente Editado": {
+                "id": cliente.id,
+                "nome":cliente.nome,
+                "cpf": cliente.cpf,
+                "cadastrado": cliente.cadastrado,
+                "cidade": cliente.endereco.cidade,
+                "estado": cliente.endereco.estado,
+                "rua": cliente.endereco.rua,
+                "bairro": cliente.endereco.bairro,
+                "numero": cliente.endereco.numero
+            }
+        }
+    }
+
+    alerta(mensage: string): object{
+        return {mensage}
+    }
 }
