@@ -28,7 +28,12 @@ export class PedidoModel implements PedidoPersistenceInterface {
     }
 
     async update(pedido: Pedido){
-        const res = await this.pedidoRepository.update(pedido)
+        const res = await this.pedidoRepository.update(pedido);
+        return res;
+    }
+
+    async delete(pedido: Pedido): Promise<void>{
+        const res = await this.pedidoRepository.delete(pedido);
         return res;
     }
 

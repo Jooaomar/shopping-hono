@@ -4,7 +4,7 @@ const app = new Hono()
 
 app.get('/hello', (c) => {
   return c.json({
-    message: `Hello!`,
+    message: 'Hello!',
   })
 })
 

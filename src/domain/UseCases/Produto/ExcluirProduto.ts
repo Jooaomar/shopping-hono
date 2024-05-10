@@ -16,7 +16,7 @@ export class ExcluirProduto implements ExcluirProdutoInterface{
     async excluir(produto: Produto, excluirPedidos=false): Promise<object> {
         // 
         if (excluirPedidos === false || excluirPedidos === undefined){
-            return this.presenter.presentAlerta("Você quer mesmo excluir também os pedidos relacionados a este produto? Você pode apenas desabilitar o produto")
+            return this.presenter.presentAlerta("Tem certeza? Isso irá excluir também os pedidos relacionados a este produto! Você pode apenas desabilitar o produto.")
         }
 
         try {

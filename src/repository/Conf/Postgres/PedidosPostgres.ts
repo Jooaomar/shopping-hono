@@ -73,8 +73,24 @@ export class PedidosPostgres<T> extends ConfigPostgres<T> implements RepositoryP
     }
 
 
-    toRemove(){
-        //
+    /**
+     * Deleta pedido
+     */
+    async delete(pedido: Pedido){
+        try {
+
+            await this.conect();
+
+            await this.client.query({
+                text: `DELETE FROM pedidos WHERE codigo_pedido = $1`,
+                values: [`${pedido.codigo_pedido}`]
+            })
+
+            await this.client.end();
+            
+        } catch (error) {
+            throw error;
+        }
     }
 
     async update(pedido: Pedido){

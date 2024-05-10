@@ -15,8 +15,8 @@ export class ViewModelPedido implements PedidoViewInterface{
         return {"error": `${mensagem}, ${e}`}
     }
 
-    excluir(mensagem: string, nome: string): object{
-        return {"excluir": {[mensagem]: nome}}
+    excluir(cliente: Cliente, produto: Produto): object{
+        return {"excluir": {"cliente": cliente.nome, "produto": {"nome": produto.nome, "preco": produto.preco, "quantidade": produto.quantidade}}}
     }
 
 
@@ -48,5 +48,8 @@ export class ViewModelPedido implements PedidoViewInterface{
                 "quantidade_pedida": pedido.quantidade
             }
         }
+    }
+    alerta(mensage: string): object {
+        return {mensage}
     }
 }

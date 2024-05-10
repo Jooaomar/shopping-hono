@@ -17,6 +17,11 @@ export class ClienteModel implements ClientePersistenceInterface {
         return res
     }
 
+    async obtainOne(id: number): Promise<Cliente> {
+        const res = await this.ClienteRepository.obtainOne(id)
+        return res
+    }
+
     async update(cliente: Cliente): Promise<Cliente> {
         const res = await this.ClienteRepository.update(cliente)
         return res

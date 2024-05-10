@@ -15,7 +15,7 @@ describe('Teste Use Case Excluir Produto', () => {
         const res = await excluir.excluir(produto);
         expect(async () => await excluir.excluir(produto)).not.toThrow();
         expect(res).toEqual({
-            mensage: "Você quer mesmo excluir também os pedidos relacionados a este produto? Você pode apenas desabilitar o produto"
+            mensage: "Tem certeza? Isso irá excluir também os pedidos relacionados a este produto! Você pode apenas desabilitar o produto."
         })
     })
     test("Confirmando excluindo produto", async () => {

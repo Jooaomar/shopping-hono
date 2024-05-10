@@ -16,8 +16,8 @@ export class PedidoPresenter implements PedidoPresenterOutput{
         return this.viewModel.setPedidoCriado();
     }
 
-    presentExcluirPedidoPresenter(mensagem: string, nomeItem: string): object {
-        return this.viewModel.excluir(mensagem, nomeItem);
+    presentExcluirPedidoPresenter(cliente: Cliente, produto: Produto): object {
+        return this.viewModel.excluir(cliente, produto);
     }
 
     presentInvalidCreateError(e: Error): object {
@@ -48,5 +48,9 @@ export class PedidoPresenter implements PedidoPresenterOutput{
 
     presentInvalidError(mensage: string): object {
         return this.viewModel.setError(mensage, new Error("Sem estoque"))
+    }
+
+    presentAlerta(mensage: string): object {
+        return this.viewModel.alerta(mensage)
     }
 }

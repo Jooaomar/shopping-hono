@@ -25,6 +25,11 @@ describe('Teste UseCase ExbirProduto', () => {
                     nome: "produtoTest",
                     preco: 600,
                     image: "htt://bicicleta",
+                },{
+                    id: 11,
+                    image: "wqhndwqjkxn",
+                    nome: "bicke",
+                    preco: 655,
                 }, {
                     id: 1,
                     nome: "Sapato1",

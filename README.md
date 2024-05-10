@@ -83,3 +83,7 @@ TRUNCATE TABLE sua_tabela RESTART IDENTITY;
 COMMIT;
 
 ``` 
+
+## Testes
+
+Antes de executar os testes com `bun test` ou de outra forma caso você não use o `bun js` você deve certifica-se de que os dados no bganco de dados adicionados através de testes tenham sido apagados: `delete from pedidos;`, `delete from produto;`, `delete from cliente;`
