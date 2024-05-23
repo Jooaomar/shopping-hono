@@ -10,7 +10,9 @@ bun run dev
 
 open http://localhost:3000
 
-## Banco de Dados
+## Creating database
+
+Before loading the application, create a database.
 
 ### Cliente
 
@@ -26,7 +28,7 @@ CREATE TABLE cliente (
     cpf integer
 );
 
--- Adiciona uma restrição UNIQUE na coluna id
+-- Add a UNIQUE constraint on the id column
 ALTER TABLE cliente ADD CONSTRAINT cliente_id_unique UNIQUE (id);
 ```
 
@@ -41,7 +43,7 @@ CREATE TABLE produto (
     habilitado boolean NOT NULL DEFAULT true
 );
 
--- Adiciona uma restrição UNIQUE na coluna id
+-- Add a UNIQUE constraint on the id column
 ALTER TABLE produto ADD CONSTRAINT produto_id_unique UNIQUE (id);
 ```
 
@@ -59,7 +61,7 @@ CREATE TABLE pedidos (
 Relacionamentos:
 
 ```sql
--- Adiciona a restrição de chave estrangeira para id_cliente
+-- Add foreign key constraint for customer_id
 ALTER TABLE pedidos
 ADD CONSTRAINT pedidos_id_cliente_fkey
 FOREIGN KEY (id_cliente) 
@@ -67,23 +69,9 @@ REFERENCES cliente(id);
 ```
 
 ```sql
--- Adiciona a restrição de chave estrangeira para id_produto
+-- Add foreign key constraint for product_id
 ALTER TABLE pedidos
 ADD CONSTRAINT pedidos_id_produto_fkey
 FOREIGN KEY (id_produto) 
 REFERENCES produto(id);
 ```
-
-### Testes
-Para excluir todos os dados de uma tabela e reiniciar a contagem do id:
-```sql
-BEGIN;
-DELETE FROM sua_tabela;
-TRUNCATE TABLE sua_tabela RESTART IDENTITY;
-COMMIT;
-
-``` 
-
-## Testes
-
-Antes de executar os testes com `bun test` ou de outra forma caso você não use o `bun js` você deve certifica-se de que os dados no bganco de dados adicionados através de testes tenham sido apagados: `delete from pedidos;`, `delete from produto;`, `delete from cliente;`
